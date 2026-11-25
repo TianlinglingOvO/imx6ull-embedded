@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Git pre-commit hook: remind when committing work files without updating TASKS.md or CHANGELOG.md.
+# Bypass for trivial commits via: SKIP_PROGRESS_CHECK=1 git commit ...
+
+set -euo pipefail
+
+if [[ "${SKIP_PROGRESS_CHECK:-0}" == "1" ]]; then
+  exit 0
+fi
+
+staged="$(git diff --cached --name-only)"
+if [[ -z "$staged" ]]; then
+  exit 0
+fi
+
+has_work=0
+has_tracking=0
+
+while IFS= read -r file; do
+  [[ -z "$file" ]] && continue
+  if [[ "$file" == "TASKS.md" || "$file" == "CHANGELOG.md" ]]; then
+    has_tracking=1
+  else
+    has_work=1
+  fi
+done <<< "$staged"
+
+if [[ "$has_work" -eq 1 && "$has_tracking" -eq 0 ]]; then
+  echo "⚠️  [pre-commit] 本次暂存了项目文件改动，但未包含 TASKS.md 或 CHANGELOG.md。" >&2
+  echo "   请确认是否需要同步更新任务清单/变更日志后再提交；" >&2
+  echo "   若本次提交无需记录，可用以下命令跳过检查：" >&2
+  echo "   SKIP_PROGRESS_CHECK=1 git commit ..." >&2
+  exit 1
+fi
+
+exit 0

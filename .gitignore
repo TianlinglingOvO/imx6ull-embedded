@@ -1,0 +1,102 @@
+# =========================================================
+# I.MX6ULL Embedded Linux Project - .gitignore
+# 策略：仅跟踪自研源码、设备树/配置、补丁、脚本与文档；
+# 忽略大型上游源码树、编译产物、压缩包与敏感文件。
+# =========================================================
+
+# --- 编译中间文件与固件镜像 ---
+*.o
+*.o.*
+*.a
+*.lo
+*.la
+*.ko
+*.ko.*
+*.mod
+*.mod.c
+*.mod.o
+*.cmd
+*.d
+*.i
+*.s
+*.su
+*.lst
+*.map
+*.tmp
+*.lds
+*.bin
+*.elf
+*.imx
+*.dtb
+*.dtbo
+*.symvers
+*.order
+zImage
+uImage
+vmlinux
+vmlinux.*
+System.map
+Module.symvers
+modules.order
+.tmp_versions/
+.cache.mk
+
+# --- 构建输出与大型上游工作目录（不推送到 GitHub） ---
+build/
+build-*/
+out/
+output/
+upstream/
+rootfs/
+tftp/
+mfgtool-out/
+
+# --- 压缩包、镜像与大体积二进制 ---
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.tar.bz2
+*.tar.xz
+*.7z
+*.rar
+*.img
+*.sdcard
+*.iso
+*.pdf
+
+# --- Qt 编译产物 ---
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+*.pro.user
+*.pro.user.*
+*.autosave
+Makefile.Debug
+Makefile.Release
+
+# --- 代码索引、编辑器与系统杂项 ---
+tags
+TAGS
+cscope.*
+GTAGS
+GRTAGS
+GPATH
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+
+# --- 隐私与敏感文件 ---
+.env
+.env.*
+*.key
+*.pem
+*secret*
+*token*
+*password*
