@@ -4,12 +4,13 @@
 
 ---
 
-## [2026-11-25] 初始化本地 Git 仓库与远程仓库关联
+## [2026-11-25] 初始化本地 Git 仓库并完成首次推送
 
-### 新增
+### 新增与验证
 - 新增嵌入式项目专用 `.gitignore`（忽略编译产物、固件镜像、大体积压缩包、上游源码目录 `upstream/`、Qt 临时文件及敏感凭证）。
 - 新增项目说明文档 `README.md`。
-- 在 `~/linux/finalhomework/` 初始化 Git 仓库（默认分支 `main`），启用 `core.hooksPath = scripts/git-hooks`，关联远程仓库 `https://github.com/TianlinglingOvO/imx6ull-embedded.git` 并完成首次本地提交。
+- 在 `~/linux/finalhomework/` 初始化 Git 仓库（默认分支 `main`），启用 `core.hooksPath = scripts/git-hooks`，关联远程仓库 `https://github.com/TianlinglingOvO/imx6ull-embedded.git`。
+- 完成首次推送并校验 `main...origin/main` 同步正常，阶段 0 准备工作全部完成。
 
 ---
 

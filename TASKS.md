@@ -16,7 +16,7 @@
 - [x] 建立任务清单（`TASKS.md`）与变更日志（`CHANGELOG.md`）跟踪机制
 - [x] 配置 Antigravity 生命周期 Hook、工作区规则（`AGENTS.md`）与 Git `pre-commit` 钩子模板
 - [x] 配置 Git 身份信息（`user.name` / `user.email`）并完成 `gh auth login` 登录 GitHub
-- [-] 在 `~/linux/finalhomework/` 初始化 Git 仓库与 `.gitignore`，启用 `pre-commit` 钩子并关联 GitHub 远程仓库（待首次 `git push`）
+- [x] 在 `~/linux/finalhomework/` 初始化 Git 仓库与 `.gitignore`，启用 `pre-commit` 钩子并关联 GitHub 远程仓库（已完成首次推送至 `origin/main`）
 
 ## 阶段 1：预热任务（来自 `期末大作业考核要求.md`）
 
