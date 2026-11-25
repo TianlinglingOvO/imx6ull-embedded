@@ -11,19 +11,39 @@
 ├── README.md                 # 项目说明
 ├── TASKS.md                  # 阶段任务清单
 ├── CHANGELOG.md              # 按时间倒序的变更日志
-├── .gitignore                # 嵌入式构建产物与大文件忽略规则
+├── .gitignore                # 嵌入式构建产物、上游源码树与大文件忽略规则
+├── pkg/                      # 原始源码压缩包（已忽略，不入库）
+├── uboot/                    # 正点原子 U-Boot 源码树（仅精准跟踪自研改动文件）
+│   └── cmd/
+│       ├── ciallo.c          # 自定义命令：ciallo
+│       ├── myinfo.c          # 自定义交互命令：myinfo
+│       └── Makefile          # 注册自定义命令编译目标
 └── scripts/
     └── git-hooks/
         └── pre-commit        # 提交前检查是否同步更新 TASKS.md / CHANGELOG.md
 ```
 
-*(后续将按任务逐步新增 `uboot/`、`kernel/`、`psplash/`、`mfgtool/`、`drivers/`、`apps/` 等子目录。)*
+*(后续将按任务逐步新增 `kernel/`、`psplash/`、`mfgtool/`、`drivers/`、`apps/` 等子目录。)*
 
 ## 开发与编译环境
 
 - **宿主机**：Ubuntu 24.04 LTS (x86_64)
 - **交叉编译器**：`arm-linux-gnueabihf-gcc`（Linaro 4.9.4）
-- **目标平台**：NXP I.MX6ULL（eMMC 版本）
+- **目标平台**：NXP I.MX6ULL（正点原子 ALPHA eMMC 版本，7 寸 `1024x600` 屏）
+- **无损调试工具**：NXP `uuu`（支持 USB OTG 纯内存加载 `u-boot.imx`，不覆写 eMMC）
+
+## 编译与板端测试（U-Boot）
+
+```bash
+# 1. 首次全量编译（生成 uboot/u-boot.imx）
+cd ~/linux/finalhomework/uboot && ./mx6ull_alientek_emmc.sh
+
+# 2. 仅修改命令源码后的快速增量编译
+cd ~/linux/finalhomework/uboot && make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j12
+
+# 3. USB OTG 纯内存启动验证（开发板拨码 01000000，USB_OTG 接入 Ubuntu，USB_TTL 接串口终端）
+sudo uuu SDP: boot -f ~/linux/finalhomework/uboot/u-boot.imx
+```
 
 ## 仓库工作流
 

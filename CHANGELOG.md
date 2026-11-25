@@ -4,6 +4,23 @@
 
 ---
 
+## [2026-11-25] 完成预热 1：U-Boot 自定义命令（`ciallo` / `myinfo`）与实机验证
+
+### 新增与修改
+- 解压正点原子 U-Boot (`uboot-imx-rel_imx_4.1.15_2.1.0_ga_alientek_v2.4`) 至独立目录 `uboot/`（原始压缩包存放于 `pkg/`）。
+- 新增自定义命令 `ciallo`（`uboot/cmd/ciallo.c`）：在 U-Boot 命令行输出 `Ciallo～(∠・ω < )⌒ ☆`，支持回车重复执行，并针对 SecureCRT 东亚模糊宽度字符排版调整间距。
+- 新增自定义命令 `myinfo`（`uboot/cmd/myinfo.c`）：打印个人标识 `chenjunzhe-202410214103`，基于 U-Boot 原生 `cli_readline()` 实现交互式 `y/n` 确认、首尾空白裁剪、空输入与非法字符拦截及 `Ctrl+C` 中断退出。
+- 在 `uboot/cmd/Makefile` 注册 `ciallo.o` 与 `myinfo.o`。
+- 更新 `.gitignore`：忽略 `pkg/` 及 `uboot/` 大型上游源码树，仅精准跟踪 `uboot/cmd/ciallo.c`、`uboot/cmd/myinfo.c` 与 `uboot/cmd/Makefile`。
+- 同步更新 `TASKS.md` 与 `README.md`（补充 U-Boot 编译与 `uuu` 纯内存调试说明）。
+
+### 验证与交付
+- 使用 `mx6ull_alientek_emmc_defconfig` 交叉编译生成 `uboot/u-boot.imx`（415 KB），`nm`/`strings` 校验 `_u_boot_list_2_cmd_2_ciallo`、`_u_boot_list_2_cmd_2_myinfo` 符号与字符串均正确链接。
+- Ubuntu 宿主机安装 NXP 官方 `uuu` 工具，开发板拨码 `01000000`（USB 模式）执行 `sudo uuu SDP: boot -f uboot/u-boot.imx` 纯内存启动（零改写 eMMC），通过 SecureCRT（UTF-8 + 新宋体）实机验证 `help ciallo`、`ciallo`、`help myinfo`、`myinfo` 各分支全部通过。
+- 已将最终编译产物拷贝至 Windows 共享目录 `/mnt/hgfs/linux_share/finalhomework/u-boot.imx`。
+
+---
+
 ## [2026-11-25] 补充 README 同步检查机制
 
 ### 更新
