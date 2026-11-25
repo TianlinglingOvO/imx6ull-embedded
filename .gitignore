@@ -52,8 +52,13 @@ rootfs/
 tftp/
 mfgtool-out/
 
-# --- U-Boot 上游源码树（整体忽略；仅通过 git add -f 精准跟踪自研命令与改动文件） ---
-uboot/
+# --- U-Boot / Kernel / psplash 上游源码树（整体忽略；仅通过 git add -f 精准跟踪自研改动文件） ---
+/uboot/
+/kernel/
+/psplash/
+
+# --- 大体积中间图像（可由 assets/ 下 PNG 重新生成） ---
+*.ppm
 
 # --- 压缩包、镜像与大体积二进制 ---
 *.zip
