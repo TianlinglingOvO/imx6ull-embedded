@@ -18,6 +18,8 @@
 ├── pkg/                      # 原始源码压缩包（已忽略，不入库）
 ├── build/                    # 临时演示镜像等构建输出（已忽略，不入库）
 ├── uboot/                    # 正点原子 U-Boot 源码树（仅精准跟踪自研改动文件）
+│   ├── Makefile              # EXTRAVERSION = -sutady
+│   ├── include/configs/mx6ull_alientek_emmc.h  # 默认 fdt_file = imx6ull-sutady-emmc-7-1024x600.dtb
 │   └── cmd/
 │       ├── ciallo.c          # 自定义命令：ciallo
 │       ├── myinfo.c          # 自定义交互命令：myinfo
@@ -30,13 +32,16 @@
 ├── psplash/                  # Yocto psplash 源码树（仅精准跟踪配色与构建改动）
 │   ├── psplash-colors.h      # 纯白背景 + 蓝白进度条配色
 │   └── configure.ac          # AC_CONFIG_HEADERS 兼容 Ubuntu 24.04 automake
+├── mfgtool/                  # 专属 MfgTool（sutady）核心配置留档
+│   ├── Mfgtool2-sutady-eMMC.vbs           # Windows 一键烧录入口（-l eMMC-sutady）
+│   └── ucl2.xml              # 含 <LIST name="eMMC-sutady"> 一条龙烧录配置
 └── scripts/
     ├── boot_ram.uuu          # uuu 纯内存加载 U-Boot + zImage + dtb 脚本
     └── git-hooks/
         └── pre-commit        # 提交前检查是否同步更新 TASKS.md / CHANGELOG.md
 ```
 
-*(后续将按任务逐步新增 `mfgtool/`、`drivers/`、`apps/` 等子目录。)*
+*(后续将按任务逐步新增 `drivers/`、`apps/` 等子目录。)*
 
 ## 开发与编译环境
 
@@ -90,6 +95,11 @@ autoreconf -fi
 ./configure --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc
 make
 ```
+
+### 4. 专属 MfgTool（`sutady` 一条龙烧录包）
+
+- 完整 Windows 可执行烧录包位于共享目录 `/mnt/hgfs/linux_share/finalhomework/mfgtool-sutady/`（核心配置 `Mfgtool2-sutady-eMMC.vbs` 与 `ucl2.xml` 已留档在仓库 `mfgtool/` 目录）。
+- 实机烧录方式：开发板拨码至 **USB 模式（`01000000`）**，将 `USB_OTG` 直接连接 Windows 主机，在 Windows 下双击 **`Mfgtool2-sutady-eMMC.vbs`** 点击 Start；烧录完成后断电拨回 **eMMC（`10100110`）** 上电启动。
 
 ## 仓库工作流
 

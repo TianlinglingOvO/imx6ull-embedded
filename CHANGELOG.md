@@ -4,6 +4,28 @@
 
 ---
 
+## [2026-11-26] 完成预热 3 制作与校验：`sutady` 专属 MfgTool 烧录工具（待下周三实机刷写）
+
+### 新增与修改
+- **确立大作业个人标签 `sutady`**，并同步升级 U-Boot 以防烧录后找不到专属设备树（对应驱动开发指南 39.5.3 节）：
+  - 修改 `uboot/Makefile` 第 8 行设置 `EXTRAVERSION = -sutady`；
+  - 修改 `uboot/include/configs/mx6ull_alientek_emmc.h` 第 199 行将默认 `fdt_file` 设为 `imx6ull-sutady-emmc-7-1024x600.dtb`；
+  - 重新编译生成 `uboot/u-boot.imx`（415 KB），校验镜像内嵌 `U-Boot 2016.03-sutady` 与 `imx6ull-sutady-emmc-7-1024x600.dtb`。
+- **搭建并定制专属 MfgTool 烧录包**（`/mnt/hgfs/linux_share/finalhomework/mfgtool-sutady/`）：
+  - 保留 `firmware/` 原厂引导固件不动，将专属成品归位至 `files/boot/`（`u-boot-imx6ull-sutady-emmc.imx`、`zImage-sutady`、`imx6ull-sutady-emmc-7-1024x600.dtb`）与 `files/psplash/`（`psplash`、`psplash-write`）；
+  - 新建启动脚本 `Mfgtool2-sutady-eMMC.vbs`（指向 `-l "eMMC-sutady"`）；
+  - 在 `Profiles/Linux/OS Firmware/ucl2.xml` 中新增完整纯 ASCII `<LIST name="eMMC-sutady">`（43 条 `<CMD>`），一条龙集成预热 1 的 U-Boot、预热 2 的全屏 `deepseeks` 内核 Logo + `deepseek_taffy` 进度条及专属 `.dtb` 命名。
+- **仓库归档与文档同步**：
+  - 新增 `mfgtool/` 目录留存 `Mfgtool2-sutady-eMMC.vbs` 与 `ucl2.xml` 配置以便 Git 版本管理；
+  - 更新 Windows 共享成品区 `/mnt/hgfs/linux_share/finalhomework/output/` 中的新版 `sutady` U-Boot、`.dtb` 副本及 `README.txt` MD5 清单；
+  - 同步更新 `TASKS.md`（预热 3 配置项标 `[x]`，实机烧录标 `[!]` 待下周三平时实验结束后执行）与 `README.md`。
+
+### 验证结果
+- 通过自动化脚本完成静态全量校验：`ucl2.xml` 纯 ASCII 无编码隐患、`<LIST name="eMMC-sutady">` XML 解析无误、12 个引用文件全部存在且非空、5 个自编成品 MD5 与 `~/linux/finalhomework/` 源码编译产物 100% 一致。
+- 暂未刷写板端 eMMC（保留当前 Lab3 实验环境，待下周三实验结束后再双击 `Mfgtool2-sutady-eMMC.vbs` 实机验收）。
+
+---
+
 ## [2026-11-25] 完成预热 2：自定义内核全屏开机 Logo 与 `psplash` 进度条动画
 
 ### 新增与修改
